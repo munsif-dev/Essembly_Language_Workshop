@@ -1,0 +1,27 @@
+     1                                  section .data
+     2                                      
+     3                                  section .bss            ; this is uninitialized data segment
+     4 00000000 ????????????????            buf resb 8      ; resb -> reserves 8 bytes (uninitialized) to result
+     5                                                          ; this can be written as (buf resb 8) also
+     6                                  
+     7                                  section .text
+     8                                  global _start
+     9                                  
+    10                                  _start:
+    11                                     
+    12 00000000 B834120000                  mov eax, 1234h
+    13 00000005 BB67450000                  mov ebx, 4567h
+    14                                  
+    15 0000000A 01D8                        add eax,ebx
+    16 0000000C A3[00000000]                mov [buf], eax           ; results goes to first register 
+    17                                                                  ; and this adding part is done by ALU (Arithmetic Logic unit)
+    18                                      
+    19                                      ; return 0
+    20 00000011 BB00000000                  mov ebx, 0         ; return value (parameter of "exit")
+    21 00000016 B801000000                  mov eax, 1         ; system call exit
+    22 0000001B CD80                        int 0x80            ; call interrupt no 80h
+    23                                  
+    24                                  
+    25                                      ; Command $fg get the program to foreground
+    26                                      
+    27                                  

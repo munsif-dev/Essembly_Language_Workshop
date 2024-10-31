@@ -1,8 +1,11 @@
-section .data
-    hello_msg db 'Hello, World! with 20 ' , 0 ; Declare a null-terminated string
+section .data                                 ; used to declare the initialized data or constant
+    hello_msg db 'Hello, World!' , 0 ; Declare a null-terminated string
 
-section .text
-    global _start                   ; Required for linking
+                         ; Used to declare the variable 
+section .text                  ; here the program code exist     
+
+global _start            ; here the real program starts to execute
+                         ; Required for linking
 
 _start:
     ; Write the hello_msg to stdout
@@ -20,4 +23,8 @@ _start:
 
 ;nasm -f elf32 prog01.asm -o prog01.o  ;This is the file which creates the .asm file into object file
 ;ld -m elf_i386 -s -o Prog01 prog01.o  ;This is the exucutable file 
+
+; compile time - > when the high level language is compiled into machine code 
+; Run time - > when the machine code is executed into the processor
+
 
