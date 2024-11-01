@@ -17,7 +17,7 @@ _start:
 
     ; Exit the program
     mov eax, 1                      ; syscall number for sys_exit (exit)
-    xor ebx, ebx                    ; exit code 0
+    mov ebx, 1                   ; exit code 0
     int 0x80                        ; make syscall
 
 

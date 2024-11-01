@@ -12,7 +12,7 @@ _start:
 ; 5F0000001
 ; 310001010
 
-    mov eax, 5F0000001h      ; When you type hexa decimal number, and 1st digit is a letter, you should put 0 before the letter
+    mov eax, 0F0000001h      ; When you type hexa decimal number, and 1st digit is a letter, you should put 0 before the letter
     mov ebx, 310001010           ; 310001010
 
     add eax,ebx
