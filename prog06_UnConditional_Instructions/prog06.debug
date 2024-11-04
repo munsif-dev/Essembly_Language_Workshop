@@ -1,0 +1,54 @@
+
+prog06.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	b8 04 00 00 00       	mov    eax,0x4
+   5:	bb 01 00 00 00       	mov    ebx,0x1
+   a:	b9 00 00 00 00       	mov    ecx,0x0
+   f:	ba 0f 00 00 00       	mov    edx,0xf
+  14:	cd 80                	int    0x80
+  16:	b8 03 00 00 00       	mov    eax,0x3
+  1b:	bb 00 00 00 00       	mov    ebx,0x0
+  20:	b9 00 00 00 00       	mov    ecx,0x0
+  25:	ba 01 00 00 00       	mov    edx,0x1
+  2a:	cd 80                	int    0x80
+  2c:	a0 00 00 00 00       	mov    al,ds:0x0
+  31:	3c 30                	cmp    al,0x30
+  33:	7c 58                	jl     8d <ERRORMSG>
+  35:	3c 39                	cmp    al,0x39
+  37:	7f 54                	jg     8d <ERRORMSG>
+  39:	a0 00 00 00 00       	mov    al,ds:0x0
+  3e:	2c 30                	sub    al,0x30
+  40:	88 c3                	mov    bl,al
+  42:	f6 e3                	mul    bl
+  44:	b3 0a                	mov    bl,0xa
+  46:	f6 f3                	div    bl
+  48:	04 30                	add    al,0x30
+  4a:	a2 01 00 00 00       	mov    ds:0x1,al
+  4f:	80 c4 30             	add    ah,0x30
+  52:	88 25 02 00 00 00    	mov    BYTE PTR ds:0x2,ah
+  58:	b8 04 00 00 00       	mov    eax,0x4
+  5d:	bb 01 00 00 00       	mov    ebx,0x1
+  62:	b9 0f 00 00 00       	mov    ecx,0xf
+  67:	ba 13 00 00 00       	mov    edx,0x13
+  6c:	cd 80                	int    0x80
+  6e:	b8 04 00 00 00       	mov    eax,0x4
+  73:	bb 01 00 00 00       	mov    ebx,0x1
+  78:	b9 01 00 00 00       	mov    ecx,0x1
+  7d:	ba 02 00 00 00       	mov    edx,0x2
+  82:	cd 80                	int    0x80
+
+00000084 <ENGPROG>:
+  84:	b8 01 00 00 00       	mov    eax,0x1
+  89:	31 db                	xor    ebx,ebx
+  8b:	cd 80                	int    0x80
+
+0000008d <ERRORMSG>:
+  8d:	b8 04 00 00 00       	mov    eax,0x4
+  92:	bb 01 00 00 00       	mov    ebx,0x1
+  97:	b9 22 00 00 00       	mov    ecx,0x22
+  9c:	ba 22 00 00 00       	mov    edx,0x22
+  a1:	cd 80                	int    0x80
