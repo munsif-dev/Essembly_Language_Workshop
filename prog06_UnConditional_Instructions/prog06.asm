@@ -41,6 +41,8 @@ _start:
     mov edx, 1                            ; length to read
     int 0x80                              ; make syscall
 
+
+    ; instruction to test Unconditional jumping
     mov al, byte[inbuf] 
     cmp al , '0'                    ; set flag register
     jl ERRORMSG                      ; Jump to ENDPROG if al<0
