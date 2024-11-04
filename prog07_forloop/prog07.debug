@@ -1,0 +1,26 @@
+
+prog07.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	b9 00 00 00 00       	mov    ecx,0x0
+
+00000005 <DISP>:
+   5:	51                   	push   ecx
+   6:	b8 04 00 00 00       	mov    eax,0x4
+   b:	bb 01 00 00 00       	mov    ebx,0x1
+  10:	b9 00 00 00 00       	mov    ecx,0x0
+  15:	ba 03 00 00 00       	mov    edx,0x3
+  1a:	cd 80                	int    0x80
+  1c:	59                   	pop    ecx
+  1d:	41                   	inc    ecx
+  1e:	83 f9 0a             	cmp    ecx,0xa
+  21:	7c e2                	jl     5 <DISP>
+
+00000023 <ENDPROG>:
+  23:	b8 01 00 00 00       	mov    eax,0x1
+  28:	31 db                	xor    ebx,ebx
+  2a:	cd 80                	int    0x80
+  2c:	eb d7                	jmp    5 <DISP>
