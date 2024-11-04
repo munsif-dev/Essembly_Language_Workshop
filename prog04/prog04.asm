@@ -28,6 +28,13 @@ _start:
     mov edx, 23                     ; length of the string
     int 0x80                        ; make syscall
 
+    mov al, byte[inbuf]             ; Here al = [inbuf] -> square bracket is set to value in that address
+    sub al, '0'                     ; al = al - 'o' 
+    mul al                          ; al = al*al          
+                 
+                      
+    int 0x80                        ; make syscall
+
 
     ; Exit the program
     mov eax, 1                      ; syscall number for sys_exit (exit)
