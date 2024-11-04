@@ -1,0 +1,18 @@
+
+prog05.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	eb 16                	jmp    18 <ENDPROG>
+   2:	b8 04 00 00 00       	mov    eax,0x4
+   7:	bb 01 00 00 00       	mov    ebx,0x1
+   c:	b9 00 00 00 00       	mov    ecx,0x0
+  11:	ba 1e 00 00 00       	mov    edx,0x1e
+  16:	cd 80                	int    0x80
+
+00000018 <ENDPROG>:
+  18:	b8 01 00 00 00       	mov    eax,0x1
+  1d:	bb 01 00 00 00       	mov    ebx,0x1
+  22:	cd 80                	int    0x80

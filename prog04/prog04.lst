@@ -1,37 +1,66 @@
-     1                                  
-     2                                  section .data                                 ; used to declare the initialized data or constant
-     3 00000000 48656C6C6F2C20576F-         hello_msg db 'Hello, World!' , 0          ; Declare a null-terminated string
-     3 00000009 726C642100         
-     4                                                                
-     5                                  section .text                       ; here the program code exist     
+     1                                  section .data  
+     2 00000000 0A0B456E7465722044-         msgl db 0xa, 0xb, "Enter Digit: "    ; Prompt message
+     2 00000009 696769743A20       
+     3                                      msgl_len equ $ - msgl                 ; Length of the prompt message
+     4 0000000F 0A0B53717561726520-         msg2 db 0xa, 0xb, "Square Value is: " ; Result message
+     4 00000018 56616C75652069733A-
+     4 00000021 20                 
+     5                                      msg2_len equ $ - msg2                 ; Length of the result message
      6                                  
-     7                                  global _start                       ; here the real program starts to execute
-     8                                                           
-     9                                  _start:
-    10                                      
-    11                                      ; Write the hello_msg to stdout
-    12 00000000 B804000000                  mov eax, 4                      ; syscall number for sys_write (write)
-    13 00000005 BB01000000                  mov ebx, 1                      ; file descriptor 1 is stdout
-    14 0000000A B9[00000000]                mov ecx, hello_msg              ; pointer to the string
-    15 0000000F BA1E000000                  mov edx, 30                     ; length of the string
-    16 00000014 CD80                        int 0x80                        ; make syscall
-    17                                  
-    18                                      ; Exit the program
-    19 00000016 B801000000                  mov eax, 1                      ; syscall number for sys_exit (exit)
-    20 0000001B BB01000000                  mov ebx, 1                      ; exit code 0
-    21 00000020 CD80                        int 0x80                        ; make syscall
+     7                                  section .bss   
+     8 00000000 ??                          inbuf resb 1                          ; Buffer for user input
+     9 00000001 ????                        outbuf resb 2                         ; Buffer for output result
+    10                                  
+    11                                  section .text                     
+    12                                  global _start                             ; Entry point
+    13                                  
+    14                                  _start:
+    15                                  
+    16                                      ; Write the msgl to stdout
+    17 00000000 B804000000                  mov eax, 4                            ; syscall number for sys_write (write)
+    18 00000005 BB01000000                  mov ebx, 1                            ; file descriptor 1 is stdout
+    19 0000000A B9[00000000]                mov ecx, msgl                         ; pointer to the prompt message
+    20 0000000F BA0F000000                  mov edx, msgl_len                     ; length of the prompt message
+    21 00000014 CD80                        int 0x80                              ; make syscall
     22                                  
-    23                                  
-    24                                  
-    25                                  
-    26                                  
-    27                                  
-    28                                  
+    23                                      ; Read single digit input from user
+    24 00000016 B803000000                  mov eax, 3                            ; syscall number for sys_read (read)
+    25 0000001B BB00000000                  mov ebx, 0                            ; file descriptor 0 is stdin
+    26 00000020 B9[00000000]                mov ecx, inbuf                        ; pointer to the input buffer
+    27 00000025 BA01000000                  mov edx, 1                            ; length to read
+    28 0000002A CD80                        int 0x80                              ; make syscall
     29                                  
-    30                                  ;nasm -f elf32 prog01.asm -o prog01.o  ;This is the file which creates the .asm file into object file
-    31                                  ;ld -m elf_i386 -s -o Prog01 prog01.o  ;This is the exucutable file 
-    32                                  
-    33                                  ; compile time - > when the high level language is compiled into machine code 
-    34                                  ; Run time - > when the machine code is executed into the processor
-    35                                  
-    36                                  
+    30                                      ; Convert ASCII to integer
+    31 0000002C A0[00000000]                mov al, byte [inbuf]                  ; Load input character
+    32 00000031 2C30                        sub al, '0'                           ; Convert ASCII to integer
+    33                                  
+    34                                      ; Square the number
+    35 00000033 88C3                        mov bl, al                            ; Copy al to bl
+    36 00000035 F6E3                        mul bl                                ; Multiply al * bl -> result in ax (al = lower byte, ah = upper byte)
+    37                                  
+    38                                      ; Convert the result back to ASCII for output
+    39 00000037 B30A                        mov bl, 10                            ; Divisor for decimal conversion
+    40 00000039 F6F3                        div bl                                ; Divide ax by 10, result: quotient in al, remainder in ah
+    41 0000003B 0430                        add al, '0'                           ; Convert quotient to ASCII
+    42 0000003D A2[01000000]                mov [outbuf], al                      ; Store the first character in outbuf
+    43 00000042 80C430                      add ah, '0'                           ; Convert remainder to ASCII
+    44 00000045 8825[02000000]              mov [outbuf + 1], ah                  ; Store the second character in outbuf
+    45                                  
+    46                                      ; Write msg2 to stdout (Square Value is:)
+    47 0000004B B804000000                  mov eax, 4                            ; syscall number for sys_write (write)
+    48 00000050 BB01000000                  mov ebx, 1                            ; file descriptor 1 is stdout
+    49 00000055 B9[0F000000]                mov ecx, msg2                         ; pointer to the result message
+    50 0000005A BA13000000                  mov edx, msg2_len                     ; length of the result message
+    51 0000005F CD80                        int 0x80                              ; make syscall
+    52                                  
+    53                                      ; Write the square result to stdout
+    54 00000061 B804000000                  mov eax, 4                            ; syscall number for sys_write (write)
+    55 00000066 BB01000000                  mov ebx, 1                            ; file descriptor 1 is stdout
+    56 0000006B B9[01000000]                mov ecx, outbuf                       ; pointer to the output buffer
+    57 00000070 BA02000000                  mov edx, 2                            ; length of the output (2 characters)
+    58 00000075 CD80                        int 0x80                              ; make syscall
+    59                                  
+    60                                      ; Exit the program
+    61 00000077 B801000000                  mov eax, 1                            ; syscall number for sys_exit (exit)
+    62 0000007C 31DB                        xor ebx, ebx                          ; exit code 0
+    63 0000007E CD80                        int 0x80                              ; make syscall
