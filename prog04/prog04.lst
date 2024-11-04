@@ -1,0 +1,37 @@
+     1                                  
+     2                                  section .data                                 ; used to declare the initialized data or constant
+     3 00000000 48656C6C6F2C20576F-         hello_msg db 'Hello, World!' , 0          ; Declare a null-terminated string
+     3 00000009 726C642100         
+     4                                                                
+     5                                  section .text                       ; here the program code exist     
+     6                                  
+     7                                  global _start                       ; here the real program starts to execute
+     8                                                           
+     9                                  _start:
+    10                                      
+    11                                      ; Write the hello_msg to stdout
+    12 00000000 B804000000                  mov eax, 4                      ; syscall number for sys_write (write)
+    13 00000005 BB01000000                  mov ebx, 1                      ; file descriptor 1 is stdout
+    14 0000000A B9[00000000]                mov ecx, hello_msg              ; pointer to the string
+    15 0000000F BA1E000000                  mov edx, 30                     ; length of the string
+    16 00000014 CD80                        int 0x80                        ; make syscall
+    17                                  
+    18                                      ; Exit the program
+    19 00000016 B801000000                  mov eax, 1                      ; syscall number for sys_exit (exit)
+    20 0000001B BB01000000                  mov ebx, 1                      ; exit code 0
+    21 00000020 CD80                        int 0x80                        ; make syscall
+    22                                  
+    23                                  
+    24                                  
+    25                                  
+    26                                  
+    27                                  
+    28                                  
+    29                                  
+    30                                  ;nasm -f elf32 prog01.asm -o prog01.o  ;This is the file which creates the .asm file into object file
+    31                                  ;ld -m elf_i386 -s -o Prog01 prog01.o  ;This is the exucutable file 
+    32                                  
+    33                                  ; compile time - > when the high level language is compiled into machine code 
+    34                                  ; Run time - > when the machine code is executed into the processor
+    35                                  
+    36                                  
